@@ -367,4 +367,25 @@ nav:hover {
     font-size: 2rem;
     line-height: 40px;
   }
+  #inv-display {
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+  }
+  #inv-display li {
+    width: 25em;
+  }
+
+
+  #product-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+  }
+  #inv-display li {
+    width: 25em;
+  }
+
+  .details {
+    padding: 3rem;
+  }
 }
