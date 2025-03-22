@@ -1,9 +1,9 @@
 <!-- Content Handling -->
 <% if (title) { %>
-    <h1><%= title %></h1>
+    <h1 class="error-title"><%= title %></h1>
     <% } else {
     res.redirect('/')
 } %>
 
 <!-- Message Block -->
-<p><%= message %></p>
+<p class="error-text"><%= message %></p>

@@ -59,6 +59,37 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the Car Details Page view HTML
+* ************************************ */
+Util.buildProductPage = async function(data){
+  let grid
+  if(data.length > 0){
+    grid = '<div id="product-display">'
+    data.forEach(vehicle => { 
+      grid +=  '<img src="' + vehicle.inv_image 
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      +' on CSE Motors" />'
+      grid += '<div class="details">'
+      grid += '<p class="title-details">'+ vehicle.inv_make + ' ' + vehicle.inv_model + ' Details'
+      grid += '</p>'
+      grid += '<p class="details-text1"><b>Price:</b> $' 
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</p>'
+      grid += '<p class="details-text"><b>Description:</b> ' + vehicle.inv_description
+      grid += '</p>'
+      grid += '<p class="details-text1"><b>Color:</b> '+ vehicle.inv_color
+      grid += '</p>'
+      grid += '<p class="details-text"><b>Miles:</b> '+ new Intl.NumberFormat('en-US').format(vehicle.inv_miles)
+      grid += '</p>'
+      grid += '</div>'
+    })
+    grid += '</div>'
+  } else { 
+    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+  }
+  return grid
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
