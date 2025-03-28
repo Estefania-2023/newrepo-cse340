@@ -269,7 +269,7 @@ padding: 5px;
 /* Log in Page */
 
 form#loginForm, form#registerForm, form#deleteForm, form#updateForm{
-  background-color: aqua;
+  background-color: rgb(243, 203, 24);
   padding: 20px;
   font-size: 1rem;
   margin: 10px;
@@ -339,6 +339,30 @@ input:required:invalid, input:focus:invalid {
     color: rgb(255, 255, 255);
     opacity: 1; /* Firefox */
   }
+
+   /* MANAGEMENT PAGE */
+.button-add {
+  padding: 10px;
+  display: block;
+  background: none;
+  border: none;
+  margin: 0 20px;
+}
+
+.manageInv {
+  padding: 10px;
+  display: block;
+  margin: 0 20px;
+  line-height: 30px;
+}
+
+.pwMessage {
+  padding: 10px 0;
+}
+
+#inv_description {
+  padding-bottom: 40px;
+}
 
 @media only screen and (min-width: 1300px) {
   html {
@@ -508,4 +532,17 @@ input:required:invalid, input:focus:invalid {
     font-size: 1.5rem;
   }
 
+  /* Management Page */
+  .button-add {
+    font-size: 1.4rem;
+  }
+
+  .manageInv {
+    font-size: 1.5rem;
+    line-height: 50px;
+  }
+
+  div.manageInv h2 {
+    font-size: 1.8rem;
+  }
 }
