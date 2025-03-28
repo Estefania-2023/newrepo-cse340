@@ -266,6 +266,80 @@ padding: 5px;
   margin-top: 13px;
 }
 
+/* Log in Page */
+
+form#loginForm, form#registerForm, form#deleteForm, form#updateForm{
+  background-color: aqua;
+  padding: 20px;
+  font-size: 1rem;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+
+.data-box {
+border: 3px solid white;
+padding: 10px;
+border-radius: 10px;
+}
+
+.data-box label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.data-box label span {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Rock Salt", sans-serif;
+  font-size: 0.9rem;
+}
+
+#loginForm button, #registerForm button, #deleteForm button, #updateForm button {
+  font-size: 1rem;
+  padding: 5px;
+  margin: 10px 0;
+}
+
+#updateAccountForm button , #updateAccountForm2 button {
+  background-color: aqua;
+  color: black;
+  padding: 5px;
+  margin: 0 10px;
+}
+
+.deleteMessage, .registerMessage, .classificationMessage {
+  text-align: center;
+  color: black;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+
+.pwMessage {
+  padding: 10px 0;
+}
+
+#inv_description {
+  padding-bottom: 40px;
+}
+
+input:required:invalid, input:focus:invalid {
+  background-color: rgba(214, 2, 2, 0.966);
+  color:white;
+  background-position: right top;
+  background-repeat: no-repeat;
+ }
+  input:required:valid {
+    background-color: rgba(161, 255, 39, 0.733);
+  background-position: right top;
+  background-repeat: no-repeat;
+  }
+
+  ::placeholder {
+    color: rgb(255, 255, 255);
+    opacity: 1; /* Firefox */
+  }
+
 @media only screen and (min-width: 1300px) {
   html {
     padding: 20px 70px;
@@ -348,7 +422,6 @@ padding: 5px;
     place-content: center;
     justify-content: center;
   }
-
   .vehicle-upgrades {
     grid-column: 1/2;
     grid-row: 1/2;
@@ -412,6 +485,27 @@ padding: 5px;
 
   .details {
     padding: 3rem;
+  }
+
+  /******** Log in Page ********/
+
+  form#loginForm, form#registerForm, form#deleteForm, form#updateForm{
+    font-size: 1.5rem;
+    line-height: 2.3rem;
+    margin: 0 400px;
+  }
+
+  .data-box label span {
+    font-size: 1.2rem;
+  }
+
+  #loginForm button, #registerForm button, #deleteForm button, #updateForm button {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  ul.notice li {
+    font-size: 1.5rem;
   }
 
 }
