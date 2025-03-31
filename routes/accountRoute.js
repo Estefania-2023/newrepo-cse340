@@ -13,7 +13,7 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 // Process the registration data
 router.post(
   "/register",
-  regValidate.registationRules(),
+  regValidate.registrationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 ) 
@@ -22,8 +22,7 @@ router.post(
 router.post(
   "/login",
   regValidate.loginRules(),
-  regValidate.checkLoginData,
-  utilities.handleErrors(accountController.logToAccount)
+  regValidate.checkLoginData
 )
 
 // Process the login attempt

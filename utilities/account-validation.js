@@ -6,7 +6,7 @@ const utilities = require(".")
   /*  **********************************
   *  Registration Data Validation Rules
   * ********************************* */
-  validate.registationRules = () => {
+  validate.registrationRules = () => {
     return [
       // firstname is required and must be string
       body("account_firstname")
@@ -92,6 +92,17 @@ validate.loginRules = () => {
         throw new Error("Email not found. Please log in with a different email")
       }
     }),
+    body("account_password")
+    .trim()
+    .notEmpty()
+    .isStrongPassword({
+      minLength: 12,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+    .withMessage("Password cannot be empty")
   ]
 }
 
