@@ -16,9 +16,10 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
-    errors: null,
   })
 }
+
+
 /* ***************************
  *  Build product page
  * ************************** */
@@ -39,17 +40,15 @@ invCont.buildById = async function (req, res, next) {
 };
 
 /* ***************************
- *  Build Vehicle Management View
- *  Assignment 4, Task 1
+ *  Build management page
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  const classificationSelect = await utilities.buildDropDownForm()
+
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
     errors: null,
-    classificationSelect,
   })
 }
 
@@ -124,7 +123,7 @@ invCont.addToInventory = async function (req, res, next) {
   if (invResult) {
     req.flash(
       "notice",
-      `Vehicle added.`
+      `Data added.`
     )
     let nav = await utilities.getNav()
     res.status(201).render("./inventory/management", {

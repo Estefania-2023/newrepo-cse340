@@ -26,8 +26,8 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ***************************
- *  Get product data
- * ************************** */
+*  Get product data
+* ************************** */
 async function getProductById (inv_id) {
   try {
     const data = await pool.query(
@@ -39,7 +39,8 @@ async function getProductById (inv_id) {
   } catch (error) {
     console.error("getproductbyid error " + error)
   }
-}
+  }
+
 
 /* ***************************
  *  Add new classification
@@ -82,4 +83,5 @@ async function insertToInventory (classification_id, inv_make, inv_model, inv_ye
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getProductById, insertClassification, checkClassification, insertToInventory}; 
+
+module.exports = {getClassifications, getInventoryByClassificationId, getProductById, insertClassification, checkClassification, insertToInventory};
