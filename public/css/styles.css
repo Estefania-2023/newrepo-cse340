@@ -56,6 +56,19 @@ nav ul li a {
   /* font-size: 1.2rem; */
 }
 
+div.accountManagement {
+  padding: 0 10px;
+}
+
+div.accountManagement h2, div.accountManagement h3 {
+  padding: 10px 0;
+  font-size: 1.4rem;
+}
+
+div.accountManagement p {
+  padding: 5px 0;
+}
+
 .welcome-title {
   font-size: 1.4rem;
   padding: 15px 0;
@@ -544,5 +557,30 @@ input:required:invalid, input:focus:invalid {
 
   div.manageInv h2 {
     font-size: 1.8rem;
+  }
+
+  /* Account management View */
+  div.accountManagement {
+    padding: 0 20px;
+  }
+  
+  div.accountManagement h2, div.accountManagement h3 {
+    font-size: 1.8rem;
+    padding: 10px;
+  }
+  
+  div.accountManagement p {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+  
+  form#updateAccountForm , form#updateAccountForm2 {
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+  
+  .updateTitle {
+    font-size: 1.6rem;
+    padding: 15px;
   }
 }
