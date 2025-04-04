@@ -124,7 +124,7 @@ invCont.addToInventory = async function (req, res, next) {
   if (invResult) {
     req.flash(
       "notice",
-      `Data added.`
+      `Vehicle added.`
     )
     let nav = await utilities.getNav()
     res.status(201).render("./inventory/management", {
@@ -242,6 +242,47 @@ invCont.updateInventory = async function (req, res, next) {
     inv_color,
     classification_id
     })
+  }
+}
+
+/* ***************************
+ *  Build confirm delete inventory view
+ * ************************** */
+invCont.buildDeleteInv = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inventory_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getProductById(inv_id)
+  const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
+  res.render("./inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData[0].inv_id,
+    inv_make: itemData[0].inv_make,
+    inv_model: itemData[0].inv_model,
+    inv_year: itemData[0].inv_year,
+    inv_price: itemData[0].inv_price,
+  })
+}
+
+
+/* ***************************
+ *  Process delete inventory
+ * ************************** */
+invCont.processDeleteInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  // Collect the inv_id value from the request.body 
+  const inv_id = parseInt(req.body.inv_id)
+  
+  //Pass the inv_id value to a model-based function to delete the inventory item.
+  const deleteResult = await invModel.deleteInventory(inv_id)
+
+  if (deleteResult) {
+    req.flash("notice", "The item was successfully deleted.")
+    res.redirect("/inv/")
+  } else {
+    req.flash("notice", "Sorry, the deletion failed.")
+    res.redirect(`/inv/delete/" + ${inv_id}`)
   }
 }
 

@@ -41,4 +41,12 @@ router.post("/update/",
     validate.checkUpdateData,
     utilities.handleErrors(invController.updateInventory));
 
+    // Route to delete inventory
+router.get("/delete/:inventory_id", 
+    utilities.handleErrors(invController.buildDeleteInv));
+
+// Route to process delete inventory
+router.post("/delete/", 
+    utilities.handleErrors(invController.processDeleteInventory));
+
 module.exports = router;
