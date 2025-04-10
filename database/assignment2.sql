@@ -30,3 +30,42 @@ WHERE c.classification_name = 'Sport';
 UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+
+--
+-- Database: 'cse 340 project'
+-- Assignment 6
+--
+
+-- Create table `message`
+
+-- MESSAGE START
+-- Table structure for table `message`
+CREATE TABLE IF NOT EXISTS public.message
+(
+    message_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    message_to integer NOT NULL,
+    message_from integer NOT NULL,
+    message_subject character varying COLLATE pg_catalog."default" NOT NULL,
+    message_body text COLLATE pg_catalog."default" NOT NULL,
+    message_created timestamp with time zone NOT NULL DEFAULT now(),
+    message_read boolean NOT NULL DEFAULT false,
+    message_archived boolean NOT NULL DEFAULT false,
+    CONSTRAINT message_pkey PRIMARY KEY (message_id)
+);
+
+-- Create relationship between columns 'message_to' and 'account_id'
+ALTER TABLE IF EXISTS public.message
+    ADD CONSTRAINT message_to_fk FOREIGN KEY (message_to)
+    REFERENCES public.account (account_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+-- Create relationship between columns 'message_from' and 'account_id'
+ALTER TABLE IF EXISTS public.message
+    ADD CONSTRAINT message_from_fk FOREIGN KEY (message_from)
+    REFERENCES public.account (account_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+-- MESSAGE END

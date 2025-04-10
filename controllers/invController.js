@@ -16,9 +16,9 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
-
 
 /* ***************************
  *  Build product page
@@ -40,7 +40,8 @@ invCont.buildById = async function (req, res, next) {
 };
 
 /* ***************************
- *  Build management page
+ *  Build Vehicle Management View
+ *  Assignment 4, Task 1
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
@@ -145,6 +146,7 @@ invCont.addToInventory = async function (req, res, next) {
   }
 }
 
+
 /* ***************************
  *  Return Inventory by Classification As JSON
  * ************************** */
@@ -157,6 +159,7 @@ invCont.getInventoryJSON = async (req, res, next) => {
     next(new Error("No data returned"))
   }
 }
+
 /* ***************************
  *  Build edit inventory view
  * ************************** */
@@ -222,7 +225,7 @@ invCont.updateInventory = async function (req, res, next) {
     req.flash("notice", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
-    const classificationSelect = await utilities.buildClassificationList(classification_id)
+    const classificationSelect = await utilities.buildDropDownForm(classification_id)
     const itemName = `${inv_make} ${inv_model}`
     req.flash("notice", "Sorry, the insert failed.")
     res.status(501).render("inventory/edit-inventory", {

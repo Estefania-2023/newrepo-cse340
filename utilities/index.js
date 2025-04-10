@@ -1,4 +1,6 @@
 const invModel = require("../models/inventory-model")
+const accountModel = require("../models/account-model")
+const messageModel = require("../models/message-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -112,41 +114,66 @@ Util.buildDropDownForm = async function(classification_id){
 }
 
 /* ****************************************
-* Middleware to check token validity
-**************************************** */
-Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-   jwt.verify(
-    req.cookies.jwt,
-    process.env.ACCESS_TOKEN_SECRET,
-    function (err, accountData) {
-     if (err) {
-      req.flash("Please log in")
-      res.clearCookie("jwt")
-      return res.redirect("/account/login")
-     }
-     res.locals.accountData = accountData
-     res.locals.loggedin = 1
-     next()
-    })
-  } else {
-   next()
-  }
- }
-
- /* ****************************************
  *  Check Login
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
+
+
+Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
 
- /* ****************************************
+/* ************************
+ * Constructs the account HTML select options
+ ************************** */
+Util.getAccountSelect = async function (selectedOption) {
+  let data = await accountModel.getAccounts()
+  let options = `<option value="">Select a Recipient</option>`
+  data.rows.forEach((row => {
+    options += 
+      `<option value="${row.account_id}"
+      ${row.account_id === Number(selectedOption) ? 'selected': ''}>
+      ${row.account_firstname} ${row.account_lastname}
+      </option>`
+  }))
+  return options
+}
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in")
+          res.clearCookie("jwt")
+        return res.redirect("/account/login")
+        }
+          res.locals.accountData = accountData
+          res.locals.loggedin = 1
+        next()
+    })
+  } else {
+  next()
+  }
+}
+
+/* ****************************************
 * Middleware to check user account type
 **************************************** */
 Util.checkAccountType = (req, res, next) => {
@@ -160,10 +187,90 @@ Util.checkAccountType = (req, res, next) => {
 }
 
 /* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
- **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+ *  Check user authorization, block unauthorized users
+ * ************************************ */
+Util.checkAuthorization = async (req, res, next) => {
+  // auth : 0
+  let auth = 0
+  // logged in ? next : 0
+  if (res.locals.loggedin) {
+    const account = res.locals.accountData
+    // admin ? 1 : 0
+    account.account_type == "Admin" 
+      || account.account_type == "Employee" ? auth = 1 : auth = 0 
+  }
+  // !auth ? 404 : next()
+  if (!auth) {
+    req.flash("notice", "Please log in")
+    res.redirect("/account/login")
+    return
+  } else {
+    next()
+  }
+}
+
+/* ************************
+ * Constructs unarchived messages on account_id
+ ************************** */
+Util.getAccountMessages = async function (account_id) {
+  let data = await messageModel.getMessagesByAccountId(account_id)
+  let dataTable
+  if (data.rowCount === 0) {
+    dataTable = '<h3>No new messages</h3>'
+  } else {
+    dataTable = '<table id="inboxMessagesDisplay"><thead>'; 
+    dataTable += '<tr><th>Read</th><th>Received</th><th>Subject</th><th>From</th></tr>'; 
+    dataTable += '</thead>'; 
+    // Set up the table body 
+    dataTable += '<tbody>'; 
+    // Iterate over all messages in the array and put each in a row 
+    data.rows.forEach((row => { 
+      dataTable += `<tr><td>` 
+        if (row.message_read) {
+          dataTable += ` true`
+        } else {
+          dataTable += ` false`
+        }
+      dataTable += `</div></td>`; 
+      dataTable += `<td>${row.message_created.toLocaleString('en-US', 'narrow')}</td>`; 
+      dataTable += `<td><a href='/inbox/view/${row.message_id}' title='Click to view message'>${row.message_subject}</a></td>`;
+      dataTable += `<td>${row.account_firstname} ${row.account_lastname}</td></tr>`;
+    })) 
+    dataTable += '</tbody></table>'; 
+  }
+  return dataTable
+}
+
+/* ************************
+ * Constructs archived messages on account_id
+ ************************** */
+Util.getArchivedMessages = async function (account_id) {
+  let data = await messageModel.getArchivedMessagesByAccountId(account_id)
+  let dataTable
+  if (data.rowCount === 0) {
+    dataTable = '<h3>No archived messages</h3>'
+  } else {
+    dataTable = '<table id="inboxMessagesDisplay"><thead>'; 
+    dataTable += '<tr><th>Read</th><th>Received</th><th>Subject</th><th>From</th></tr>'; 
+    dataTable += '</thead>'; 
+    // Set up the table body 
+    dataTable += '<tbody>'; 
+    // Iterate over all messages in the array and put each in a row 
+    data.rows.forEach((row => {
+      dataTable += `<tr><td>` 
+        if (row.message_read) {
+          dataTable += ` true`
+        } else {
+          dataTable += ` false`
+        }
+      dataTable += `</div></td>`; 
+      dataTable += `<td>${row.message_created.toLocaleString('en-US', 'narrow')}</td>`;
+      dataTable += `<td><a href='/inbox/view/${row.message_id}' title='Click to view message'>${row.message_subject}</a></td>`;
+      dataTable += `<td>${row.account_firstname} ${row.account_lastname}</td></tr>`;
+    })) 
+    dataTable += '</tbody></table>'; 
+  }
+  return dataTable
+}
 
 module.exports = Util

@@ -1,6 +1,13 @@
 const pool = require("../database/")
 
 /* *****************************
+*   Get all accounts (SELECT)
+* *************************** */
+async function getAccounts() {
+  return await pool.query("SELECT * FROM public.account ORDER BY account_email")
+}
+
+/* *****************************
 *   Register new account
 * *************************** */
 async function registerAccount(account_firstname, account_lastname, account_email, account_password){
@@ -25,7 +32,6 @@ async function checkExistingEmail(account_email){
     }
   }
   
-  
   /* *****************************
   * Return account data using email address
   * ***************************** */
@@ -39,7 +45,6 @@ async function checkExistingEmail(account_email){
       return new Error("No matching email found")
     }
   }
-  
   
   /* *****************************
   * Return account data using account id
@@ -70,7 +75,7 @@ async function checkExistingEmail(account_email){
     }
   }
 
-  /* ***************************
+/* ***************************
  *  Update Account Data
  * ************************** */
 async function updateAccount(
@@ -124,4 +129,4 @@ async function updatePassword(
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, getEmailById, updateAccount, updatePassword };
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, getEmailById, updateAccount, updatePassword, getAccounts };

@@ -377,6 +377,70 @@ input:required:invalid, input:focus:invalid {
   padding-bottom: 40px;
 }
 
+/* MESSAGE PAGE */
+.messageList {
+  padding: 0 10px;
+  margin: 0 10px;
+}
+
+
+div.messageManagement {
+  padding: 0 10px;
+}
+
+#inboxMessagesDisplay{
+  padding: 10px 0;
+}
+
+#inboxMessagesDisplay tbody tr td{
+  padding: 0 4px;
+  text-align: center;
+}
+
+ul.success {
+  color: red;
+  padding: 10px;
+}
+#messageForm {
+  font-size: 1rem;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+#messageForm fieldset p {
+  padding: 10px 0;
+}
+
+#messageForm fieldset p:nth-of-type(odd) {
+  background-color: #f0f0f0; 
+}
+
+#messageForm fieldset p:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.messageLinks {
+  padding: 0 10px;
+}
+
+
+
+.button {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  background-color: aqua;
+  color: black;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.sendMessage {
+  padding: 5px;
+  margin: 10px;
+}
+
 @media only screen and (min-width: 1300px) {
   html {
     padding: 20px 70px;
@@ -583,4 +647,34 @@ input:required:invalid, input:focus:invalid {
     font-size: 1.6rem;
     padding: 15px;
   }
+
+  /* MESSAGE PAGE */
+  .messageList {
+    font-size: 1.4rem;
+  }
+
+  #inboxMessagesDisplay{
+    font-size: 1.5rem;
+  }
+
+  #inboxMessagesDisplay tbody tr td{
+    font-size: 1.4rem;
+  }
+
+  ul.success {
+  font-size: 1.5rem;
+  }
+
+  #messageForm {
+    font-size: 1.4rem
+  }
+
+  .messageManagement {
+    font-size: 1.4rem
+  }
+
+  .button {
+  font-size: 1.4rem;
+  }
+
 }
